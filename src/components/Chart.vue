@@ -9,7 +9,7 @@
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4charts from '@amcharts/amcharts4/charts'
 
-let chart = null
+let charts = []
 
 export default {
   name: 'Chart',
@@ -24,11 +24,13 @@ export default {
   },
 
   beforeDestroy () {
-    chart && chart.dispose()
+    charts.forEach(chart => {
+      chart.dispose && chart.dispose()
+    })
   },
 
   mounted () {
-    chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart)
+    let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart)
 
     chart.paddingTop = 0
     chart.paddingRight = 0
@@ -66,6 +68,8 @@ export default {
     series.dataFields.valueY = 'value'
     series.stroke = am4core.color('#3F51B5')
     series.fill = am4core.color('#3F51B5')
+    
+    charts.push(chart)
   }
 }
 </script>
